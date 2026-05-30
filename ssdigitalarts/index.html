@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.S. Digital Arts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5f7a',
+                        secondary: '#f87171',
+                        light: '#f8fafc',
+                        dark: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .album-shadow {
+                box-shadow: 0 10px 25px -5px rgba(26, 95, 122, 0.2);
+            }
+            .image-hover {
+                transition: all 0.3s ease;
+            }
+            .active-nav {
+                color: #1a5f7a;
+                font-weight: 600;
+                border-bottom: 2px solid #1a5f7a;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark font-sans min-h-screen">
+    <!-- Header -->
+    <header class="bg-primary text-white py-6 px-4 md:px-8 shadow-md">
+        <div class="container mx-auto">
+            <h1 class="text-[clamp(1.8rem,4vw,3.2rem)] font-bold tracking-wide">S.S. Digital Arts</h1>
+            <p class="opacity-90 mt-1 max-w-2xl">Curated Fashion Photoshoots | Female Clothing Collection</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap gap-4 md:gap-8">
+            <button id="nav-all" class="nav-btn active-nav pb-2">All Albums</button>
+            <button id="nav-ethnic" class="nav-btn hover:text-primary transition-colors pb-2">Ethnic Wear</button>
+            <button id="nav-casuals" class="nav-btn hover:text-primary transition-colors pb-2">Casuals</button>
+            <button id="nav-about" class="nav-btn hover:text-primary transition-colors pb-2">About</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-12 px-4 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-semibold text-primary mb-4">Fashion Through The Lens</h2>
+            <p class="max-w-3xl mx-auto text-gray-700 text-lg">Showcasing elegance, style, and personality through carefully crafted photoshoots — from traditional ethnic wear to modern casuals.</p>
+        </div>
+    </section>
+
+    <!-- Albums Section -->
+    <section id="albums-section" class="py-10 px-4">
+        <div class="container mx-auto">
+            <div id="albums-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Ethnic Album -->
+                <div class="album-card album-shadow rounded-xl overflow-hidden bg-white cursor-pointer hover:translate-y-[-5px] transition-transform duration-300" data-album="ethnic">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/cover1.jpeg" alt="Ethnic Wear Collection" class="w-full h-full object-cover image-hover hover:scale-105">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-primary">Ethnic Wear</h3>
+                        <p class="text-gray-600 mt-2">Traditional, elegant, and timeless designs — showcasing cultural beauty through fashion.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-sm text-gray-500"><i class="fa fa-image mr-1"></i> <span id="ethnic-count">7</span> Photos</span>
+                            <span class="text-secondary font-medium text-sm">View Gallery →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Casuals Album -->
+                <div class="album-card album-shadow rounded-xl overflow-hidden bg-white cursor-pointer hover:translate-y-[-5px] transition-transform duration-300" data-album="casuals">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/cover2.jpeg" alt="Casuals Collection" class="w-full h-full object-cover image-hover hover:scale-105">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-primary">Casuals</h3>
+                        <p class="text-gray-600 mt-2">Modern, comfortable, and trendy everyday styles — capturing contemporary fashion vibes.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-sm text-gray-500"><i class="fa fa-image mr-1"></i> <span id="casuals-count">7</span> Photos</span>
+                            <span class="text-secondary font-medium text-sm">View Gallery →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery View (Hidden by Default) -->
+    <section id="gallery-section" class="py-10 px-4 hidden">
+        <div class="container mx-auto">
+            <button id="back-to-albums" class="mb-6 flex items-center gap-2 text-primary hover:underline">
+                <i class="fa fa-arrow-left"></i> Back to Albums
+            </button>
+            <h2 id="gallery-title" class="text-2xl font-bold text-primary mb-6"></h2>
+            <div id="images-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Images will load here via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="py-10 px-4 bg-gray-50 hidden">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-2xl font-bold text-primary mb-4">About S.S. Digital Arts</h2>
+            <p class="text-gray-700 mb-4">We specialize in high-quality fashion photoshoots focused on female clothing lines — from intricate ethnic wear to stylish casuals. Our goal is to bring out the best in every design through creative photography and artistic presentation.</p>
+            <p class="text-gray-700">This gallery serves as a digital showcase of our work, regularly updated with new collections and shoots.</p>
+            
+            <!-- Admin Edit Note -->
+            <div class="mt-8 p-4 border border-dashed border-gray-300 rounded-lg bg-white">
+                <h3 class="font-semibold text-dark mb-2">✏️ How to Update Content After Hosting</h3>
+                <p class="text-sm text-gray-600">To add new albums or images, simply edit the <code class="bg-gray-100 px-2 py-1 rounded">galleryData</code> object in the JavaScript section. Add new image files to your <code>images/</code> folder, update the list here, then re-upload everything to your hosting.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-6 right-6 text-white text-2xl hover:text-gray-300">
+            <i class="fa fa-times"></i>
+        </button>
+        <img id="modal-image" class="max-w-full max-h-[85vh] object-contain" alt="Enlarged view">
+        <button id="prev-image" class="absolute left-6 text-white text-2xl hover:text-gray-300"><i class="fa fa-chevron-left"></i></button>
+        <button id="next-image" class="absolute right-6 text-white text-2xl hover:text-gray-300"><i class="fa fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-8 px-4">
+        <div class="container mx-auto text-center">
+            <p>© 2026 S.S. Digital Arts | Fashion Photography Gallery</p>
+            <p class="text-gray-400 text-sm mt-2">Hosted on Google Cloud / Firebase | Easily editable & updatable</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --------------------------
+        // EDIT THIS SECTION TO UPDATE CONTENT!
+        // --------------------------
+        const galleryData = {
+            ethnic: {
+                title: "Ethnic Wear Collection",
+                images: [
+                    "images/eth1.jpeg",
+                    "images/eth2.jpeg",
+                    "images/eth3.jpeg",
+                    "images/eth4.jpeg",
+                    "images/eth5.jpeg",
+                    "images/eth6.jpeg",
+                    "images/eth7.jpeg",
+                ]
+            },
+            casuals: {
+                title: "Casuals Collection",
+                images: [
+                    "images/casual1.jpeg",
+                    "images/casual2.jpeg",
+                    "images/casual3.jpeg",
+                    "images/casual4.jpeg",
+                    "images/casual5.jpeg",
+                    "images/casual6.jpeg",
+                    "images/casual7.jpeg",
+                ]
+            }
+        };
+
+        // --------------------------
+        // ALL INTERACTIVE FUNCTIONS
+        // --------------------------
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const albumsSection = document.getElementById('albums-section');
+        const gallerySection = document.getElementById('gallery-section');
+        const aboutSection = document.getElementById('about-section');
+        const galleryTitle = document.getElementById('gallery-title');
+        const imagesGrid = document.getElementById('images-grid');
+        const backBtn = document.getElementById('back-to-albums');
+        const albumCards = document.querySelectorAll('.album-card');
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const closeModal = document.getElementById('close-modal');
+        const prevBtn = document.getElementById('prev-image');
+        const nextBtn = document.getElementById('next-image');
+        let currentImages = [];
+        let currentIndex = 0;
+
+        // Navigation Switching
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navButtons.forEach(b => b.classList.remove('active-nav'));
+                btn.classList.add('active-nav');
+                
+                albumsSection.classList.add('hidden');
+                gallerySection.classList.add('hidden');
+                aboutSection.classList.add('hidden');
+
+                if (btn.id === 'nav-all') albumsSection.classList.remove('hidden');
+                if (btn.id === 'nav-ethnic') openAlbum('ethnic');
+                if (btn.id === 'nav-casuals') openAlbum('casuals');
+                if (btn.id === 'nav-about') aboutSection.classList.remove('hidden');
+            });
+        });
+
+        // Open Album on Click
+        albumCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const albumId = card.getAttribute('data-album');
+                openAlbum(albumId);
+            });
+        });
+
+        // Open Album Function
+        function openAlbum(albumId) {
+            albumsSection.classList.add('hidden');
+            aboutSection.classList.add('hidden');
+            gallerySection.classList.remove('hidden');
+            const album = galleryData[albumId];
+            galleryTitle.textContent = album.title;
+            currentImages = album.images;
+            imagesGrid.innerHTML = '';
+
+            currentImages.forEach((imgSrc, idx) => {
+                const imgEl = document.createElement('img');
+                imgEl.src = imgSrc;
+                imgEl.alt = `Photo ${idx+1}`;
+                imgEl.className = 'w-full h-64 object-cover rounded-lg shadow-sm cursor-pointer image-hover hover:scale-105';
+                imgEl.addEventListener('click', () => {
+                    currentIndex = idx;
+                    modalImg.src = imgSrc;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                });
+                imagesGrid.appendChild(imgEl);
+            });
+        }
+
+        // Back Button
+        backBtn.addEventListener('click', () => {
+            gallerySection.classList.add('hidden');
+            albumsSection.classList.remove('hidden');
+        });
+
+        // Modal Controls
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+            modalImg.src = currentImages[currentIndex];
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % currentImages.length;
+            modalImg.src = currentImages[currentIndex];
+        });
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        });
+    </script>
+</body>
+</html>
